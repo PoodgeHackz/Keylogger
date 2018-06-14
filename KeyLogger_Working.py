@@ -25,9 +25,9 @@ def send_Email(msg):
     subject = 'Rofl'
     body = msg
 
-    email_text = """\  
-    From: %s  
-    To: %s  
+    email_text = """\
+    From: %s
+    To: %s
     Subject: %s
 
     %s
